@@ -38,7 +38,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		</div>
 		<div class="card-content">
 			<div class="card-content-inner">
-				<a href="<?php echo $Config['WebsitePath']; ?>/inbox/{{ID}}"  data-ignore="true">
+				<a href="<?php echo $Config['WebsitePath']; ?>/inbox/{{ID}}" data-ignore="true">
 					{{Content}}
 				</a>
 			</div>
@@ -47,25 +47,25 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 	</div>
 </template>
 
-<input type="hidden" id="RepliedToMePage" value="1"/>
-<input type="hidden" id="RepliedToMeLoading" value="0"/>
-<input type="hidden" id="MentionedMePage" value="1"/>
-<input type="hidden" id="MentionedMeLoading" value="0"/>
+<input type="hidden" id="RepliedToMePage" value="1" />
+<input type="hidden" id="RepliedToMeLoading" value="0" />
+<input type="hidden" id="MentionedMePage" value="1" />
+<input type="hidden" id="MentionedMeLoading" value="0" />
 <input type="hidden" id="InboxPage" value="1" />
 <input type="hidden" id="InboxLoading" value="0" />
 
 <div class="button-grouped flex tabbed">
 	<a class="button pressed" onclick="$('#MentionedMeList').hide();$('#InboxList').hide();$('#RepliedToMeList').show();">
 		<?php echo $Lang['Notifications_Replied_To_Me']; ?>
-		<?php echo $CurUserInfo['NewReply'] > 0 ? ' ('.$CurUserInfo['NewReply'].')' : ''; ?>
+		<?php echo $CurUserInfo['NewReply'] > 0 ? ' (' . $CurUserInfo['NewReply'] . ')' : ''; ?>
 	</a>
 	<a class="button" id="mention_button" onclick="$('#RepliedToMeList').hide();$('#InboxList').hide();$('#MentionedMeList').show();">
 		<?php echo $Lang['Notifications_Mentioned_Me']; ?>
-		<?php echo $CurUserInfo['NewMention'] > 0 ? ' ('.$CurUserInfo['NewMention'].')' : ''; ?>
+		<?php echo $CurUserInfo['NewMention'] > 0 ? ' (' . $CurUserInfo['NewMention'] . ')' : ''; ?>
 	</a>
 	<a class="button" id="message_button" onclick="$('#MentionedMeList').hide();$('#RepliedToMeList').hide();$('#InboxList').show();">
 		<?php echo $Lang['Inbox']; ?>
-		<?php echo $CurUserInfo['NewMessage'] > 0 ? ' ('.$CurUserInfo['NewMessage'].')' : ''; ?>
+		<?php echo $CurUserInfo['NewMessage'] > 0 ? ' (' . $CurUserInfo['NewMessage'] . ')' : ''; ?>
 	</a>
 </div>
 <div id="RepliedToMeList">
@@ -75,25 +75,25 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <div id="InboxList" style="display:none;">
 </div>
 <script type="text/javascript">
-	$(document).ready(function(){
-		loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/mobile/notifications.function.js?version=<?php echo STACK_BRAIN_VERSION; ?>", function () {
+	$(document).ready(function() {
+		loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/mobile/notifications.function.js?version=<?php echo STACK_BRAIN_VERSION; ?>", function() {
 			loadMoreReply(true);
 			loadMoreMention(true);
 			loadMoreInbox(true);
 			var _target = $(".panel.active[selected=true]");
 			_target.unbind();
-			_target.scroll(function () {
+			_target.scroll(function() {
 				loadNotificationsList($(this));
 			});
 		});
 		<?php
 		if ($CurUserInfo['NewMention'] > 0) {
 		?>
-		$("#mention_button").click();
+			$("#mention_button").click();
 		<?php
 		} else if ($CurUserInfo['NewMessage'] > 0) {
 		?>
-		$("#message_button").click();
+			$("#message_button").click();
 		<?php
 		}
 		?>

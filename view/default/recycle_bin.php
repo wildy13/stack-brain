@@ -6,7 +6,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
     <div class="main-box home-box-list">
         <?php
         foreach ($TopicsArray as $Topic) {
-            ?>
+        ?>
             <div class="post-list">
                 <div class="item-avatar">
                     <a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Topic['UserName']); ?>">
@@ -20,19 +20,19 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
                         </a>
                     </h2>
                     <span class="item-tags">
-						<?php
-                        if($Topic['Tags']){
+                        <?php
+                        if ($Topic['Tags']) {
                             foreach (explode("|", $Topic['Tags']) as $Tag) {
-                                ?><a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>"><?php echo $Tag; ?></a>
-                                <?php
+                        ?><a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>"><?php echo $Tag; ?></a>
+                        <?php
                             }
                         }
                         ?></span><span class="item-date float-right"><a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Topic['UserName']); ?>"><?php echo $Topic['UserName']; ?></a>&nbsp;•&nbsp;<?php echo FormatTime($Topic['LastTime']);
-                        if($Topic['Replies']){
-                            ?>&nbsp;•&nbsp;<?php echo $Lang['Last_Reply_From']; ?>&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Topic['LastName']); ?>"><?php echo $Topic['LastName']; ?></a><?php } ?>
-					</span>
+                                                                                                                                                                                                                        if ($Topic['Replies']) {
+                                                                                                                                                                                                                        ?>&nbsp;•&nbsp;<?php echo $Lang['Last_Reply_From']; ?>&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Topic['LastName']); ?>"><?php echo $Topic['LastName']; ?></a><?php } ?>
+                    </span>
                 </div>
-                <?php if($Topic['Replies']){ ?>
+                <?php if ($Topic['Replies']) { ?>
                     <div class="item-count">
                         <a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>"><?php echo $Topic['Replies']; ?></a>
                     </div>
@@ -40,7 +40,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
                 <div class="c"></div>
             </div>
 
-            <?php
+        <?php
         }
         ?>
         <div class="pagination">
@@ -56,7 +56,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <!-- main-sider start -->
 <div class="main-sider">
     <?php
-    include($TemplatePath.'sider.php');
+    include($TemplatePath . 'sider.php');
     ?>
     <div class="sider-box">
         <div class="sider-box-title"><?php echo $Lang['Website_Statistics']; ?></div>

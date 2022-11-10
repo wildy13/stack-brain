@@ -3,33 +3,33 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
 <!-- main-content start -->
 <div class="main-content">
-<script>
-$(document).ready(function(){
-	$("#notifications").easyResponsiveTabs({
-		type: 'default', //Types: default, vertical, accordion           
-		width: 'auto', //auto or any custom width
-		fit: true,   // 100% fits in a container
-		closed: false, // Close the panels on start, the options 'accordion' and 'tabs' keep them closed in there respective view types
-		activate: function() {}  // Callback function, gets called if tab is switched
-	});
-	loadMoreReply(true);
-	loadMoreMention(true);
-	loadMoreInbox(true);
-	<?php
-	if ($CurUserInfo['NewMention'] > 0) {
-	?>
-	$(".resp-tab-item")[1].click();
-	<?php
-	} else if ($CurUserInfo['NewMessage'] > 0) {
-	?>
-	$(".resp-tab-item")[2].click();
-	<?php
-	}
-	?>
-});
-</script>
-<script type="text/template" id="RepliedToMePostTemplate">
-<div class="comment-item">
+	<script>
+		$(document).ready(function() {
+			$("#notifications").easyResponsiveTabs({
+				type: 'default', //Types: default, vertical, accordion           
+				width: 'auto', //auto or any custom width
+				fit: true, // 100% fits in a container
+				closed: false, // Close the panels on start, the options 'accordion' and 'tabs' keep them closed in there respective view types
+				activate: function() {} // Callback function, gets called if tab is switched
+			});
+			loadMoreReply(true);
+			loadMoreMention(true);
+			loadMoreInbox(true);
+			<?php
+			if ($CurUserInfo['NewMention'] > 0) {
+			?>
+				$(".resp-tab-item")[1].click();
+			<?php
+			} else if ($CurUserInfo['NewMessage'] > 0) {
+			?>
+				$(".resp-tab-item")[2].click();
+			<?php
+			}
+			?>
+		});
+	</script>
+	<script type="text/template" id="RepliedToMePostTemplate">
+		<div class="comment-item">
 	<div class="user-comment-data">
 		<div class="comment-content">
 		<span class="user-activity-title">
@@ -50,8 +50,8 @@ $(document).ready(function(){
 </div>
 </script>
 
-<script type="text/template" id="MentionedMePostTemplate">
-<div class="comment-item">
+	<script type="text/template" id="MentionedMePostTemplate">
+		<div class="comment-item">
 	<div class="user-comment-data">
 		<div class="comment-content">
 		<span class="user-activity-title">
@@ -72,8 +72,8 @@ $(document).ready(function(){
 </div>
 </script>
 
-<script type="text/template" id="InboxTemplate">
-<div class="comment-item">
+	<script type="text/template" id="InboxTemplate">
+		<div class="comment-item">
 	<div class="comment-avatar">
 		<a href="<?php echo $Config['WebsitePath']; ?>/u/{{ContactName}}">
 			<img src="<?php echo $Config['WebsitePath']; ?>/upload/avatar/middle/{{ContactID}}.png" alt="{{ContactName}}"/>
@@ -110,9 +110,9 @@ $(document).ready(function(){
 				<?php echo $Lang['Notifications_Replied_To_Me']; ?>
 				<?php
 				if ($CurUserInfo['NewReply'] > 0) {
-					?>
+				?>
 					<span class="icon-messages-num"><?php echo $CurUserInfo['NewReply']; ?></span>
-					<?php
+				<?php
 				}
 				?>
 			</li>
@@ -120,9 +120,9 @@ $(document).ready(function(){
 				<?php echo $Lang['Notifications_Mentioned_Me']; ?>
 				<?php
 				if ($CurUserInfo['NewMention'] > 0) {
-					?>
+				?>
 					<span class="icon-messages-num"><?php echo $CurUserInfo['NewMention']; ?></span>
-					<?php
+				<?php
 				}
 				?>
 			</li>
@@ -130,9 +130,9 @@ $(document).ready(function(){
 				<?php echo $Lang['Inbox']; ?>
 				<?php
 				if ($CurUserInfo['NewMessage'] > 0) {
-					?>
+				?>
 					<span class="icon-messages-num"><?php echo $CurUserInfo['NewMessage']; ?></span>
-					<?php
+				<?php
 				}
 				?>
 			</li>
@@ -147,6 +147,6 @@ $(document).ready(function(){
 <!-- main-content end -->
 <!-- main-sider start -->
 <div class="main-sider">
-	<?php include($TemplatePath.'sider.php'); ?>
+	<?php include($TemplatePath . 'sider.php'); ?>
 </div>
 <!-- main-sider end -->

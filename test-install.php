@@ -10,7 +10,6 @@ if (PHP_OS === "WINNT") {
 
 require(__DIR__ . '/library/URL.class.php');
 
-// 安装
 $InstallRequestParameter = array(
 	"Language" => "zh-cn",
 	"DBHost" => "127.0.0.1",

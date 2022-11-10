@@ -5,10 +5,9 @@ class SearchClient {
     private static $singleSelf;
 
     /**
-     * sphinx api对象
      * @var sphinx object
      *
-     */
+     * @var array $filter */
     private static $sphinx;
     private function __construct() {
         if( !defined( 'SearchServer' ) || !defined( 'SearchPort' ) ) {

@@ -9,9 +9,9 @@ if (PHP_OS === "WINNT") {
 }
 
 define('TestHTTPPort', '8099');
-define('TestMainDomainName', 'local.94cb.com:' . TestHTTPPort);
-define('TestMobileDomainName', 'local-m.94cb.com:' . TestHTTPPort);
-define('TestAppDomainName', 'local-api.94cb.com:' . TestHTTPPort);
+define('TestMainDomainName', 'local.example.com:' . TestHTTPPort);
+define('TestMobileDomainName', 'local-m.example.com:' . TestHTTPPort);
+define('TestAppDomainName', 'local-api.example.com:' . TestHTTPPort);
 $Passed = 0;
 $Failed = 0;
 
@@ -40,8 +40,6 @@ function AutoTest($Method, $View, $URL, $Parameters = [], $ExpectedStatusCode = 
 	}
 
 
-	//echo $URL . "\n";
-	//var_dump($Parameters);
 	if ($Method === 'GET') {
 		$URL .= '?' . http_build_query($Parameters);
 	}
@@ -95,12 +93,12 @@ function AutoTest($Method, $View, $URL, $Parameters = [], $ExpectedStatusCode = 
 	return json_decode($Response, true);
 }
 
-// 设置域名
+
 $DB->query("UPDATE `" . PREFIX . "config` SET `ConfigValue`='" . TestMainDomainName . "' WHERE `ConfigName`='MainDomainName'");
 $DB->query("UPDATE `" . PREFIX . "config` SET `ConfigValue`='" . TestMobileDomainName . "' WHERE `ConfigName`='MobileDomainName'");
 $DB->query("UPDATE `" . PREFIX . "config` SET `ConfigValue`='" . TestAppDomainName . "' WHERE `ConfigName`='AppDomainName'");
 
-// 开始测试
+
 AutoTest('GET', 'api', '/404', [], 404);
 
 //Register Test
@@ -162,7 +160,6 @@ AutoTest('GET', 'pc', '/', [], 200);
 AutoTest('GET', 'pc', '/page/2', [], 200);
 
 
-// 安装完后打印数据库信息
 foreach ($DB->query("show table status;") as $Table) {
 	echo sprintf("%20s | %10d | %20s \n", $Table["Name"], $Table["Rows"], $Table["Update_time"]);
 }

@@ -3,9 +3,11 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
 <div class="formGroupHead"><?php echo $Lang['Avatar_Settings']; ?></div>
 <?php
-if($UploadAvatarMessage){
+if ($UploadAvatarMessage) {
 ?>
-<script type="text/javascript">CarbonAlert("<?php echo $UploadAvatarMessage; ?>");</script>
+	<script type="text/javascript">
+		CarbonAlert("<?php echo $UploadAvatarMessage; ?>");
+	</script>
 <?php
 }
 ?>
@@ -27,9 +29,11 @@ if($UploadAvatarMessage){
 
 <div class="formGroupHead"><?php echo $Lang['Profile_Settings']; ?></div>
 <?php
-if($UpdateUserInfoMessage){
+if ($UpdateUserInfoMessage) {
 ?>
-<script type="text/javascript">CarbonAlert("<?php echo $UpdateUserInfoMessage; ?>");</script>
+	<script type="text/javascript">
+		CarbonAlert("<?php echo $UpdateUserInfoMessage; ?>");
+	</script>
 <?php
 }
 ?>
@@ -57,22 +61,24 @@ if($UpdateUserInfoMessage){
 
 <div class="formGroupHead"><?php echo $Lang['Security_Settings']; ?></div>
 <?php
-if($ChangePasswordMessage){
+if ($ChangePasswordMessage) {
 ?>
-<script type="text/javascript">CarbonAlert("<?php echo $ChangePasswordMessage; ?>");</script>
+	<script type="text/javascript">
+		CarbonAlert("<?php echo $ChangePasswordMessage; ?>");
+	</script>
 <?php
 }
 ?>
 <form method="post" action="<?php echo $Config['WebsitePath']; ?>/settings">
 	<div class="input-group">
 		<input type="hidden" name="Action" value="ChangePassword" />
-<?php
-if(!$DoNotNeedOriginalPassword){
-?>
-		<input type="password" placeholder="<?php echo $Lang['Current_Password']; ?>" name="OriginalPassword" value="" />
-<?php
-}
-?>
+		<?php
+		if (!$DoNotNeedOriginalPassword) {
+		?>
+			<input type="password" placeholder="<?php echo $Lang['Current_Password']; ?>" name="OriginalPassword" value="" />
+		<?php
+		}
+		?>
 		<input type="password" placeholder="<?php echo $Lang['New_Password']; ?>" name="NewPassword" value="" />
 		<input type="password" placeholder="<?php echo $Lang['Confirm_New_Password']; ?>" name="NewPassword2" value="" />
 		<input type="submit" value="<?php echo $Lang['Change_Password']; ?>" name="submit" class="button" />

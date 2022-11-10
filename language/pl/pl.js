@@ -1,23 +1,3 @@
-/*
- * Carbon-Forum
- * https://github.com/lincanbin/Carbon-Forum
- *
- * Copyright 2006-2017 Canbin Lin (lincanbin@hotmail.com)
- * http://www.94cb.com/
- *
- * Licensed under the Apache License, Version 2.0:
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * A high performance open-source forum software written in PHP. 
- */
-
-/**
- * Created with JetBrains PhpStorm.
- * User: taoqili
- * Last Modified: Lin Canbin
- * Date: 2014-12-03
- * To change this template use File | Settings | File Templates.
- */
 UE.I18N['pl'] = {
 	"labelMap": {
 		"anchor": "Anchor",

@@ -1,15 +1,3 @@
-/*
- * Carbon-Forum
- * https://github.com/lincanbin/Carbon-Forum
- *
- * Copyright 2006-2017 Canbin Lin (lincanbin@hotmail.com)
- * http://www.94cb.com/
- *
- * Licensed under the Apache License, Version 2.0:
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * A high performance open-source forum software written in PHP.
- */
 var Lang = {
 	"Title_Can_Not_Be_Empty": "標題不能為空！",
 	"Title_Too_Long": "標題長度不能超過 {{MaxTitleChars}} 位元組，當前標題長度為 {{Current_Title_Length}} 個位元組",

@@ -121,7 +121,7 @@ INSERT INTO `sb_config` (`ConfigName`, `ConfigValue`) VALUES
 ('AllowEditing', 'true'),
 ('AllowEmptyTags', 'false'),
 ('AllowNewTopic', 'true'),
-('AppDomainName', 'app.94cb.com'),
+('AppDomainName', 'app.example.com'),
 ('CacheAnnouncements', ''),
 ('CacheHotTags', '[{\"ID\":1,\"Name\":\"First\",\"Icon\":0,\"TotalPosts\":1,\"Followers\":1}]'),
 ('CacheHotTopics', ''),

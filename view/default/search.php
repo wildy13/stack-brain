@@ -1,6 +1,5 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
-//关键字加亮
 function KeywordHighlight($Content)
 {
 	global $KeywordArray;

@@ -1,17 +1,17 @@
 <?php
 if (!defined('InternalAccess')) exit('{"Status": 0, "ErrorCode": "403", "ErrorMessage": "403"}');
-if($Error){
+if ($Error) {
 ?>{
-	"Status": 0,
-	"ErrorCode": <?php echo $ErrorCode;?>,
-	"ErrorMessage": "<?php echo $Error;?>"
+"Status": 0,
+"ErrorCode": <?php echo $ErrorCode; ?>,
+"ErrorMessage": "<?php echo $Error; ?>"
 }<?php
-}else{
-?>{
-	"Status": 1,
-	"TopicID": <?php echo $TopicID;?>,
-	"PostID": <?php echo $PostID;?>,
-	"Page": <?php echo $TotalPage;?>
+} else {
+	?>{
+"Status": 1,
+"TopicID": <?php echo $TopicID; ?>,
+"PostID": <?php echo $PostID; ?>,
+"Page": <?php echo $TotalPage; ?>
 }<?php
 }
-?>
+	?>

@@ -4,16 +4,16 @@ ErrorDocument 404 {{WebSitePath}}/404.php
 <IfModule mod_rewrite.c>
 	#强制重定向到带www的顶级域名
 	RewriteEngine On
-	RewriteCond %{HTTP_HOST} ^94cb.com$ [NC]
-	RewriteRule ^(.*)$ https://www.94cb.com/$1 [L,R=301]
+	RewriteCond %{HTTP_HOST} ^example.com$ [NC]
+	RewriteRule ^(.*)$ https://www.example.com/$1 [L,R=301]
 
 	#For SSL 
-	#RewriteCond %{HTTP_HOST} ^www.94cb.com$ [NC]
+	#RewriteCond %{HTTP_HOST} ^www.example.com$ [NC]
 	#RewriteCond %{SERVER_PORT} 80
-	#RewriteRule ^(.*)$ https://www.94cb.com/$1 [L,R=301]
-	#RewriteCond %{HTTP_HOST} ^m.94cb.com$ [NC]
+	#RewriteRule ^(.*)$ https://www.example.com/$1 [L,R=301]
+	#RewriteCond %{HTTP_HOST} ^m.example.com$ [NC]
 	#RewriteCond %{SERVER_PORT} 80
-	#RewriteRule ^(.*)$ https://m.94cb.com/$1 [L,R=301]
+	#RewriteRule ^(.*)$ https://m.example.com/$1 [L,R=301]
 
 	RewriteCond %{REQUEST_METHOD} ^TRACE
 	RewriteRule .* - [F]

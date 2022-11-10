@@ -1,20 +1,4 @@
 <?php
-/*
- * Carbon-Forum
- * https://github.com/lincanbin/Carbon-Forum
- *
- * Copyright 2006-2017 Canbin Lin (lincanbin@hotmail.com)
- * http://www.94cb.com/
- *
- * Licensed under the Apache License, Version 2.0:
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * A high performance open-source forum software written in PHP. 
- */
-/*
-逐渐替换为帕斯卡命名法
-数据库从设计上避免使用Join多表联查
-*/
 define('STACK_BRAIN_VERSION', '1.0.0');
 //Initialize timer
 $StartTime = microtime(true);
@@ -75,7 +59,6 @@ if (!$Config) {
 		$MCache->set(MemCachePrefix . 'Config', $Config, 86400);
 	}
 }
-// 热门标签列表
 $HotTagsArray = json_decode($Config['CacheHotTags'], true);
 $HotTagsArray = $HotTagsArray ? $HotTagsArray : array();
 
@@ -91,7 +74,6 @@ $_PUT = array();
 $_DELETE = array();
 $_OPTIONS = array();
 
-//消除低版本中魔术引号的影响
 if (version_compare(PHP_VERSION, '5.4.0') < 0 && get_magic_quotes_gpc()) {
 	function StripslashesDeep($var)
 	{
@@ -105,28 +87,19 @@ if (version_compare(PHP_VERSION, '5.4.0') < 0 && get_magic_quotes_gpc()) {
 }
 
 
-// At某人并提醒他，使用时常在其前后加空格或回车，如 “@admin ”
 function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 {
-	/*
-	Type:
-	1:新回复
-	2:@ 到我的
-	*/
 	global $DB, $MCache, $TimeStamp, $CurUserName;
-	$InTransaction = $DB->inTransaction();//是否处于其他事务之中
-	//例外列表
+	$InTransaction = $DB->inTransaction();
 	$ExceptionUser = array(
 		$CurUserName
 	);
 	if ($FilterUser != $CurUserName) {
 		$ExceptionUser[] = $FilterUser;
 	}
-	// 正则跟用户注册、登录保持一致
 	preg_match_all('/\B\@([a-zA-Z0-9\x80-\xff\-_]{4,20})/', strip_tags($Content, '<br><p>'), $out, PREG_PATTERN_ORDER);
-	$TemporaryUserList = array_unique($out[1]); //排重
+	$TemporaryUserList = array_unique($out[1]);
 	$TemporaryUserList = array_diff($TemporaryUserList, $ExceptionUser);
-	//对数组重新分配下标
 	sort($TemporaryUserList);
 	if ($TemporaryUserList) {
 		try {
@@ -135,7 +108,6 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 			}
 			$UserList = $DB->row('SELECT ID FROM `' . PREFIX . 'users` WHERE `UserName` IN (?)', $TemporaryUserList);
 			if ($UserList && count($UserList) <= 20) {
-				//最多@ 20人，防止骚扰
 				foreach ($UserList as $UserID) {
 					$DB->query('INSERT INTO `' . PREFIX . 'notifications`(`ID`,`UserID`, `UserName`, `Type`, `TopicID`, `PostID`, `Time`, `IsRead`) VALUES (NULL,?,?,?,?,?,?,?)', array(
 						$UserID,
@@ -149,7 +121,6 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 					$DB->query('UPDATE `' . PREFIX . 'users` SET `NewMention` = NewMention+1 WHERE ID = :UserID', array(
 						'UserID' => $UserID
 					));
-					//清理内存缓存
 					if ($MCache) {
 						$MCache->delete(MemCachePrefix . 'UserInfo_' . $UserID);
 					}
@@ -171,7 +142,6 @@ function AddingNotifications($Content, $TopicID, $PostID, $FilterUser = '')
 }
 
 
-//提示信息
 function AlertMsg($PageTitle, $Error, $StatusCode = 200)
 {
 	global $Lang, $CurProtocol, $RequestURI, $UrlPath, $IsAjax, $IsMobile, $IsApp, $DB, $Config, $HotTagsArray, $CurUserID, $CurUserName, $CurUserCode, $CurUserRole, $CurUserInfo, $FormHash, $StartTime, $PageMetaKeyword, $TemplatePath;
@@ -253,7 +223,6 @@ function AlertMsg($PageTitle, $Error, $StatusCode = 200)
 }
 
 
-//获取数组中的某一列
 function ArrayColumn($Input, $ColumnKey)
 {
 	if (version_compare(PHP_VERSION, '5.5.0') < 0) {
@@ -270,7 +239,6 @@ function ArrayColumn($Input, $ColumnKey)
 }
 
 
-//鉴权
 function Auth($MinRoleRequire, $AuthorizedUserID = 0, $StatusRequire = false)
 {
 	global $CurUserRole, $CurUserID, $CurUserInfo, $Lang, $RequestURI;
@@ -290,15 +258,12 @@ function Auth($MinRoleRequire, $AuthorizedUserID = 0, $StatusRequire = false)
 }
 
 
-//转换字符
 function CharCV($string)
 {
 	$string = htmlspecialchars(trim($string));
 	return $string;
 }
 
-
-// 过滤掉一些非法字符
 function CharsFilter($String)
 {
 	$String = str_replace("<", "", $String);
@@ -307,10 +272,9 @@ function CharsFilter($String)
 }
 
 
-// 获得IP地址
 function CurIP()
 {
-	$IsCDN = false; //未使用CDN时，应直接使用 $_SERVER['REMOTE_ADDR'] 以防止客户端伪造IP
+	$IsCDN = false;
 	$IP = false;
 	if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
 		$IP = trim($_SERVER["HTTP_CLIENT_IP"]);
@@ -318,10 +282,9 @@ function CurIP()
 	if ($IsCDN && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 		$IPs = array_map("trim", explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']));
 		if ($IP) {
-			array_unshift($IPs, $IP);//插入头部而不是尾部，提升性能
+			array_unshift($IPs, $IP);
 			$IP = FALSE;
 		}
-		//支持使用CDN后获取IP，理论上令 $IP = $IPs[0]; 即可，安全起见遍历过滤一次
 		foreach ($IPs as $Key => $Value) {
 			/*
 			Fails validation for the following private IPv4 ranges: 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16.
@@ -337,7 +300,6 @@ function CurIP()
 }
 
 
-//关键词过滤
 function Filter($Content)
 {
 	if (is_file(LibraryPath . 'Filtering.words.config.json')) {
@@ -350,13 +312,11 @@ function Filter($Content)
 	foreach ($FilteringWords as $SearchRegEx => $Rule) {
 
 		if (preg_match_all("/" . $SearchRegEx . "/i", $Content, $SearchWordsList)) {
-			//var_dump($SearchWordsList);
 			foreach ($SearchWordsList as $SearchWord) {
 				if (is_array($Rule)) {
 					$Content = str_ireplace($SearchWord, $Rule[0], $Content);
 					$Prohibited |= ($Rule[0] === false);
-					$GagTime = ($Rule[1] > $GagTime) ? $Rule[1] : $GagTime; //将规则中封禁时间最长的一个赏给用户
-				} else {
+					$GagTime = ($Rule[1] > $GagTime) ? $Rule[1] : $GagTime;
 					$Content = str_ireplace($SearchWord, $Rule, $Content);
 					//$Prohibited |= false;
 					//$GagTime = 0;
@@ -365,13 +325,12 @@ function Filter($Content)
 		}
 	}
 	return array(
-		'Content' => $Content, //过滤后的内容
-		'Prohibited' => $Prohibited, //是否包含有禁止发布的词
-		'GagTime' => $GagTime //赏赐给用户的禁言时间（秒）
+		'Content' => $Content,
+		'Prohibited' => $Prohibited,
+		'GagTime' => $GagTime
 	);
 }
 
-// 获得表单校验散列
 function FormHash()
 {
 	global $Config;
@@ -382,11 +341,8 @@ function FormHash()
 }
 
 
-//格式化文件大小
 function FormatBytes($size, $precision = 2)
 {
-	// https://www.zhihu.com/question/21578998/answer/86401223
-	// According to Metric prefix, IEEE 1541-2002.
 	$units = array(
 		' Bytes',
 		' KiB',
@@ -400,13 +356,11 @@ function FormatBytes($size, $precision = 2)
 }
 
 
-// 格式化时间
 function FormatTime($UnixTimeStamp)
 {
 	global $Lang;
 	$Seconds = $_SERVER['REQUEST_TIME'] - $UnixTimeStamp;
 	if ($Seconds < 2592000) {
-		// 小于30天如下显示
 		if ($Seconds >= 86400) {
 			return round($Seconds / 86400, 0) . '&nbsp;' . $Lang['Time_Days_Ago'];
 		} else if ($Seconds >= 3600) {
@@ -419,29 +373,23 @@ function FormatTime($UnixTimeStamp)
 			return ($Seconds + 1) . '&nbsp;' . $Lang['Time_Seconds_Ago'];
 		}
 	} else {
-		// 大于一月
 		return date("Y-m-d", $UnixTimeStamp);
-		//gmdate()可以返回格林威治标准时，date()则为当地时
 	}
 }
 
 
-//获取头像
 function GetAvatar($UserID, $UserName, $Size = 'middle')
 {
 	global $Config;
 	return '<img src="' . $Config['WebsitePath'] . '/upload/avatar/' . $Size . '/' . $UserID . '.png" alt="' . $UserName . '"/>';
 }
 
-
-//获取Tag标签
 function GetTagIcon($TagID, $Icon, $TagName, $Size = 'middle')
 {
 	global $Config;
 	return '<img src="' . $Config['WebsitePath'] . '/upload/tag/' . $Size . '/' . ($Icon ? $TagID : '0') . '.png" alt="' . $TagName . '"/>';
 }
 
-//获取Cookie
 function GetCookie($Key, $DefaultValue = false)
 {
 	global $Config, $IsApp;
@@ -461,7 +409,6 @@ function GetCookie($Key, $DefaultValue = false)
 }
 
 
-//Hash值校验，防止时序攻击法
 function HashEquals($KnownString, $UserString)
 {
 	if (version_compare(PHP_VERSION, '5.6.0') < 0) {
@@ -471,14 +418,12 @@ function HashEquals($KnownString, $UserString)
 	}
 }
 
-//长整数intval，防止溢出，目前暂未用到
 function Int($s)
 {
 	return ($a = preg_replace('/[^\-\d]*(\-?\d*).*/', '$1', $s)) ? $a : '0';
 }
 
 
-//判断是否为邮件地址
 function IsEmail($email)
 {
 	return strlen($email) > 6 && preg_match("/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/", $email);
@@ -490,35 +435,32 @@ function IsJson($String)
 	return (json_last_error() === JSON_ERROR_NONE);
 }
 
-//判断是否为合法用户名
 function IsName($string)
 {
 	return !preg_match('/^[0-9]{4,20}$/', $string) && preg_match('/^[a-zA-Z0-9\x{4e00}-\x{9fa5}\-_]{4,20}$/ui', $string);
 }
 
 
-//判断当前协议
 function IsSSL()
 {
 	if (!isset($_SERVER['HTTPS']))
 		return false;
-	if ($_SERVER['HTTPS'] === 1) { //Apache
+	if ($_SERVER['HTTPS'] === 1) {
 		return true;
-	} elseif ($_SERVER['HTTPS'] === 'on') { //IIS
+	} elseif ($_SERVER['HTTPS'] === 'on') {
 		return true;
-	} elseif ($_SERVER['SERVER_PORT'] == 443) { //其他
+	} elseif ($_SERVER['SERVER_PORT'] == 443) {
 		return true;
 	}
 	return false;
 }
 
-// 去除注释的JsonDecode
 function JsonDecode($Json)
 {
 	return json_decode(preg_replace("/\/\*[\s\S]+?\*\//", "", $Json), true);
 }
 
-//登出
+
 function LogOut()
 {
 	global $CurUserID;
@@ -531,7 +473,7 @@ function LogOut()
 }
 
 
-//跳转
+
 function Redirect($URI = '', $ExitCode = 0)
 {
 	global $Config;
@@ -539,7 +481,7 @@ function Redirect($URI = '', $ExitCode = 0)
 	exit($ExitCode);
 }
 
-//来源检查
+
 function ReferCheck($UserHash)
 {
 	global $IsApp;
@@ -549,7 +491,7 @@ function ReferCheck($UserHash)
 		return true;
 }
 
-//表单获取
+
 function Request($Type, $Key, $DefaultValue = '')
 {
 	global $_PUT, $_DELETE, $_OPTIONS;
@@ -576,8 +518,6 @@ function Request($Type, $Key, $DefaultValue = '')
 }
 
 
-//设置工作模式为API模式(返回Json格式数据)
-//SetStyle('api','API');
 function SetStyle($PathName, $StyleName)
 {
 	global $IsApp, $TemplatePath, $Style;
@@ -591,7 +531,7 @@ function SetStyle($PathName, $StyleName)
 }
 
 
-//批量设置Cookie
+
 function SetCookies($CookiesArray, $Expires = 0)
 {
 	global $TimeStamp, $Config;
@@ -604,7 +544,7 @@ function SetCookies($CookiesArray, $Expires = 0)
 }
 
 
-//大小写不敏感的array_diff
+
 function TagsDiff($Arr1, $Arr2)
 {
 	global $Config;
@@ -621,7 +561,7 @@ function TagsDiff($Arr1, $Arr2)
 }
 
 
-//修改系统设置
+
 function UpdateConfig($NewConfig)
 {
 	global $DB, $Config, $MCache;
@@ -640,11 +580,10 @@ function UpdateConfig($NewConfig)
 	} else {
 		return false;
 	}
-
 }
 
 
-//修改用户资料
+
 function UpdateUserInfo($NewUserInfo, $UserID = 0)
 {
 	global $DB, $CurUserID, $CurUserInfo, $MCache;
@@ -669,14 +608,13 @@ function UpdateUserInfo($NewUserInfo, $UserID = 0)
 	} else {
 		return false;
 	}
-
 }
 
-//跨站脚本白名单过滤
+
 function XssEscape($html)
 {
 	$filter = new WhiteHTMLFilter();
-	$urlFilter = function($url) {
+	$urlFilter = function ($url) {
 		$token = parse_url($url);
 		if (empty($token['scheme']) || in_array($token['scheme'], array('http', 'https')) === false) {
 			return '';
@@ -694,7 +632,7 @@ function XssEscape($html)
 			'cdn.aixifan.com',
 			'v.ifeng.com',
 			'video.sina.com.cn',
-			'galaxy.bjcathay.com'//CNTV
+			'galaxy.bjcathay.com' //CNTV
 		);
 		if (empty($token['host']) || in_array($token['host'], $hostWhiteList) === false) {
 			return '';
@@ -737,7 +675,6 @@ if ($IsApp) {
 	$Style = 'API';
 	header('Access-Control-Allow-Origin: *');
 	header('Content-Type: application/json');
-	//API鉴权
 	$SignatureKey = Request("Request", "SKey");
 	$SignatureValue = Request("Request", "SValue");
 	$SignatureTime = intval(Request("Request", "STime"));
@@ -759,7 +696,6 @@ if ($IsApp) {
 $CurView = GetCookie('View', $IsMobile ? 'mobile' : 'desktop');
 $CurIP = CurIP();
 $FormHash = FormHash();
-// 限制不能打开.php的网址
 if (strpos($RequestURI, '.php')) {
 	AlertMsg('403', 'Forbidden', 403);
 }
@@ -802,7 +738,7 @@ if ($Config['DaysDate'] != $CurrentDate) {
 	));
 }
 // Get the infomation of current user
-$CurUserInfo = null; //当前用户信息，Array，以后判断是否登陆使用if($CurUserID)
+$CurUserInfo = null;
 $CurUserRole = 0;
 $CurUserID = intval(GetCookie('UserID'));
 $CurUserName = '';

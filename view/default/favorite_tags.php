@@ -13,41 +13,41 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 		<?php
 		foreach ($TopicsArray as $Topic) {
 		?>
-		<div class="post-list">
-			<div class="item-avatar">
-				<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Topic['UserName']); ?>" target="_blank">
+			<div class="post-list">
+				<div class="item-avatar">
+					<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Topic['UserName']); ?>" target="_blank">
 						<?php echo GetAvatar($Topic['UserID'], $Topic['UserName'], 'middle'); ?>
 					</a>
-			</div>
-			<div class="item-content">
-				<h2>
-					<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>" target="_blank"><?php echo $Topic['Topic']; ?></a>
-				</h2>
-				<span class="item-tags">
-					<?php
-					if($Topic['Tags']){
-						foreach (explode("|", $Topic['Tags']) as $Tag) {
+				</div>
+				<div class="item-content">
+					<h2>
+						<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>" target="_blank"><?php echo $Topic['Topic']; ?></a>
+					</h2>
+					<span class="item-tags">
+						<?php
+						if ($Topic['Tags']) {
+							foreach (explode("|", $Topic['Tags']) as $Tag) {
 						?><a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>" target="_blank"><?php echo $Tag; ?></a>
 						<?php
+							}
 						}
-					}
-					?>
-				</span>
-				<span class="item-date float-right">
-					<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Topic['UserName']); ?>" target="_blank"><?php echo $Topic['UserName']; ?></a>&nbsp;•&nbsp;
-					<?php echo FormatTime($Topic['LastTime']); 
-					if($Topic['Replies']){
-					?>&nbsp;•&nbsp;<?php echo $Lang['Last_Reply_From']; ?>&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Topic['LastName']); ?>" target="_blank"><?php echo $Topic['LastName']; ?></a>
+						?>
+					</span>
+					<span class="item-date float-right">
+						<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Topic['UserName']); ?>" target="_blank"><?php echo $Topic['UserName']; ?></a>&nbsp;•&nbsp;
+						<?php echo FormatTime($Topic['LastTime']);
+						if ($Topic['Replies']) {
+						?>&nbsp;•&nbsp;<?php echo $Lang['Last_Reply_From']; ?>&nbsp;<a href="<?php echo $Config['WebsitePath']; ?>/u/<?php echo urlencode($Topic['LastName']); ?>" target="_blank"><?php echo $Topic['LastName']; ?></a>
 					<?php } ?>
-				</span>
+					</span>
+				</div>
+				<?php if ($Topic['Replies']) { ?>
+					<div class="item-count">
+						<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>"><?php echo $Topic['Replies']; ?></a>
+					</div>
+				<?php } ?>
+				<div class="c"></div>
 			</div>
-		<?php if($Topic['Replies']){ ?>
-			<div class="item-count">
-				<a href="<?php echo $Config['WebsitePath']; ?>/t/<?php echo $Topic['ID']; ?>"><?php echo $Topic['Replies']; ?></a>
-			</div>
-		<?php } ?>
-			<div class="c"></div>
-		</div>
 		<?php
 		}
 		?>
@@ -63,13 +63,13 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 	<div class="sider-box">
 		<div class="sider-box-title"><?php echo $Lang['My_Following_Tags']; ?></div>
 		<div class="sider-box-content btn">
-			<?php foreach ($TagsFollowing as $Tag) {?>
-			<a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag['Title']); ?>" target="_blank"><?php echo $Tag['Title']; ?></a>
+			<?php foreach ($TagsFollowing as $Tag) { ?>
+				<a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag['Title']); ?>" target="_blank"><?php echo $Tag['Title']; ?></a>
 			<?php } ?>
 		</div>
 	</div>
 	<?php
-	include($TemplatePath.'sider.php');
+	include($TemplatePath . 'sider.php');
 	?>
 </div>
 <!-- main-sider end -->

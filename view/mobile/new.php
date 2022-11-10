@@ -2,12 +2,12 @@
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
 <script type="text/javascript">
-	var AllowEmptyTags = <?php echo $Config["AllowEmptyTags"]; ?>;//允许空话题
-	var MaxTagNum = <?php echo $Config["MaxTagsNum"]; ?>;//最多的话题数量
-	var MaxTitleChars = <?php echo $Config['MaxTitleChars']; ?>;//主题标题最多字节数
-	var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多字节数
+	var AllowEmptyTags = <?php echo $Config["AllowEmptyTags"]; ?>;
+	var MaxTagNum = <?php echo $Config["MaxTagsNum"]; ?>;
+	var MaxTitleChars = <?php echo $Config['MaxTitleChars']; ?>;
+	var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>; 
 	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/mobile/topic.function.js?version=<?php echo STACK_BRAIN_VERSION; ?>", function() {
-		$.each(<?php echo json_encode(ArrayColumn($HotTagsArray, 'Name')); ?>,function(Offset,TagName) {
+		$.each(<?php echo json_encode(ArrayColumn($HotTagsArray, 'Name')); ?>, function(Offset, TagName) {
 			TagsListAppend(TagName, Offset);
 		});
 	});
@@ -27,13 +27,13 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 	</p>
 	<p>
 		<input type="text" name="AlternativeTag" id="AlternativeTag" value="" onclick="JavaScript:GetTags();" placeholder="<?php echo $Lang['Add_Tags']; ?>" />
-		<ul id="SelectTags" class="list">
-			<li class="divider"><?php echo $Lang['Tags']; ?></li>
-		</ul>
+	<ul id="SelectTags" class="list">
+		<li class="divider"><?php echo $Lang['Tags']; ?></li>
+	</ul>
 	</p>
 	<p>
-		<div id="TagsList">
-		</div>
+	<div id="TagsList">
+	</div>
 	</p>
 	<p><input type="button" value="<?php echo $Lang['Submit']; ?>" name="submit" class="button block green" onclick="JavaScript:CreateNewTopic();" id="PublishButton" style="width:100%;" /></p>
 </form>

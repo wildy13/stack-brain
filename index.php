@@ -30,7 +30,6 @@ $Routes = array(
 );
 
 //Support HTTP Method: GET / POST / PUT / DELETE / OPTIONS
-//这里是Routes Start
 
 $Routes['GET']['/']                                                                        = 'home';
 $Routes['POST']['/']                                                                       = 'home'; //Delete later
@@ -83,7 +82,6 @@ $Routes['GET']['/upload_controller']                                            
 $Routes['POST']['/upload_controller']                                                      = 'upload';
 $Routes['GET']['/redirect-(?<view>desktop|mobile)']                                        = 'redirect';
 
-//这里是Routes End
 $UrlPath = 'home';
 $ParametersVariableName = '_' . $HTTPMethod;
 foreach ($Routes[$HTTPMethod] as $URL => $Controller) {
@@ -108,7 +106,7 @@ if ($NotFound === true) {
 }
 
 if ($Config['MobileDomainName'] && $_SERVER['HTTP_HOST'] != $Config['MobileDomainName'] && $CurView == 'mobile' && !$IsApp && $UrlPath != 'view') {
-	//如果是手机，则跳转到移动版
+
 	header("HTTP/1.1 302 Moved Temporarily");
 	header("Status: 302 Moved Temporarily");
 	header('Location: ' . $CurProtocol . $Config['MobileDomainName'] . $RequestURI);

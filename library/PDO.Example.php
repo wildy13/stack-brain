@@ -57,4 +57,3 @@
 	d($id_age, "Single Row, Id and Age");
 	d($ages, "Fetch Column, Numeric Index");
 $DB->CloseConnection();//Close
-?>

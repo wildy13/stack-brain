@@ -1,4 +1,3 @@
-
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
@@ -25,12 +24,12 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 						<a href="###" onclick="javascript:Manage(<?php echo $Topic['FavoriteID']; ?>, 4, 1, false, this);"><?php echo $Lang['Unsubscribe']; ?></a>
 					</span>
 					<span class="item-date float-right">
-						<?php echo $Lang['Collected_In'].FormatTime($Topic['DateCreated']); ?>
+						<?php echo $Lang['Collected_In'] . FormatTime($Topic['DateCreated']); ?>
 					</span>
 				</div>
 				<div class="c"></div>
 			</div>
-							
+
 		<?php
 		}
 		?>
@@ -44,7 +43,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <!-- main-sider start -->
 <div class="main-sider">
 	<?php
-	include($TemplatePath.'sider.php');
+	include($TemplatePath . 'sider.php');
 	?>
 </div>
 <!-- main-sider end -->

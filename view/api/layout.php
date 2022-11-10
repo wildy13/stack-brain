@@ -7,4 +7,3 @@ include($ContentFile);
 $TotalTime = number_format((microtime(true) - $StartTime) * 1000, 3);
 header("X-Response-Time: " . $TotalTime . "ms");
 ob_end_flush();
-?>

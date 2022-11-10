@@ -1,18 +1,4 @@
 <?php
-/*
- * White HTML Filter
- * https://github.com/lincanbin/White-HTML-Filter
- *
- * Copyright 2017 Canbin Lin (lincanbin@hotmail.com)
- * http://www.94cb.com/
- *
- * Licensed under the Apache License, Version 2.0:
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * A php-based HTML tag and attribute whitelist filter.
- */
-
-
 
 /**
  * @property WhiteHTMLFilterConfig config
@@ -185,7 +171,6 @@ class WhiteHTMLFilter
 			/* @var $domAttr DOMAttr */
 			$domAttr = $attributes->item($index);
 			$attrName = strtolower($domAttr->name);
-			// 如果不在白名单attr中，而且允许data-*，且不是data-*，则删除
 			if (!in_array($attrName, $attributesWhiteList) && $allowDataAttribute && (stripos($attrName, "data-") !== 0)) {
 				$elem->removeAttribute($attrName);
 			} else {

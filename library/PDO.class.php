@@ -1,16 +1,4 @@
 <?php
-/*
- * PHP-PDO-MySQL-Class
- * https://github.com/lincanbin/PHP-PDO-MySQL-Class
- *
- * Copyright 2015 Canbin Lin (lincanbin@hotmail.com)
- * http://www.94cb.com/
- *
- * Licensed under the Apache License, Version 2.0:
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * A PHP MySQL PDO class similar to the the Python MySQLdb. 
- */
 require(__DIR__ . "/PDO.Log.class.php");
 /** Class DB
  * @property PDO pdo PDO object
@@ -34,9 +22,9 @@ class DB
 	public $querycount = 0;
 
 
-	private $retryAttempt = 0; // 失败重试次数
+	private $retryAttempt = 0;
 	const AUTO_RECONNECT = true;
-	const RETRY_ATTEMPTS = 3; // 最大失败重试次数
+	const RETRY_ATTEMPTS = 3;
 
 	public function __construct($Host, $DBPort, $DBName, $DBUser, $DBPassword)
 	{
@@ -49,27 +37,24 @@ class DB
 		$this->parameters = array();
 		$this->Connect();
 	}
-	
-	
+
+
 	private function Connect()
 	{
 		try {
-			$this->pdo = new PDO('mysql:host=' . $this->Host . ';port=' . $this->DBPort . ';dbname=' . $this->DBName . ';charset=utf8', 
-				$this->DBUser, 
+			$this->pdo = new PDO(
+				'mysql:host=' . $this->Host . ';port=' . $this->DBPort . ';dbname=' . $this->DBName . ';charset=utf8',
+				$this->DBUser,
 				$this->DBPassword,
 				array(
-					//For PHP 5.3.6 or lower
 					PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
 					PDO::ATTR_EMULATE_PREPARES => false,
-					//长连接
-					//PDO::ATTR_PERSISTENT => true,
 					PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 					PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
 				)
 			);
 			$this->connectionStatus = true;
-		}
-		catch (PDOException $e) {
+		} catch (PDOException $e) {
 			$this->ExceptionLog($e, '', 'Connect');
 		}
 	}
@@ -79,7 +64,7 @@ class DB
 		$this->pdo = null;
 		$this->connectionStatus = false;
 	}
-	
+
 	public function CloseConnection()
 	{
 		$this->pdo = null;
@@ -93,7 +78,7 @@ class DB
 		try {
 			$this->parameters = $parameters;
 			$this->sQuery     = $this->pdo->prepare($this->BuildParams($query, $this->parameters));
-			
+
 			if (!empty($this->parameters)) {
 				if (array_key_exists(0, $parameters)) {
 					$parametersType = true;
@@ -109,15 +94,13 @@ class DB
 
 			$this->sQuery->execute();
 			$this->querycount++;
-		}
-		catch (PDOException $e) {
+		} catch (PDOException $e) {
 			$this->ExceptionLog($e, $this->BuildParams($query), 'Init', array('query' => $query, 'parameters' => $parameters));
-
 		}
-		
+
 		$this->parameters = array();
 	}
-	
+
 	private function BuildParams($query, $params = null)
 	{
 		if (!empty($params)) {
@@ -168,14 +151,14 @@ class DB
 			return NULL;
 		}
 	}
-	
-	
+
+
 	public function lastInsertId()
 	{
 		return $this->pdo->lastInsertId();
 	}
-	
-	
+
+
 	public function column($query, $params = null)
 	{
 		$this->Init($query, $params);
@@ -192,22 +175,22 @@ class DB
 		$this->sQuery->closeCursor();
 		return $resultRow;
 	}
-	
-	
+
+
 	public function single($query, $params = null)
 	{
 		$this->Init($query, $params);
 		return $this->sQuery->fetchColumn();
 	}
-	
-	
+
+
 	private function ExceptionLog(PDOException $e, $sql = "", $method = '', $parameters = array())
 	{
 		$message = $e->getMessage();
 		$exception = 'Unhandled Exception. <br />';
 		$exception .= $message;
 		$exception .= "<br /> You can find the error back in the log.";
-		
+
 		if (!empty($sql)) {
 			$message .= "\r\nRaw SQL : " . $sql;
 		}
@@ -220,7 +203,7 @@ class DB
 			&& !$this->inTransaction()
 		) {
 			$this->SetFailureFlag();
-			$this->retryAttempt ++;
+			$this->retryAttempt++;
 			$this->logObject->write('Retry ' . $this->retryAttempt . ' times', $this->DBName . md5($this->DBPassword));
 			call_user_func_array(array($this, $method), $parameters);
 		} else {

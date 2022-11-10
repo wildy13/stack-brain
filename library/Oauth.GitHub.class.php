@@ -8,21 +8,21 @@ class Oauth
 	const GET_ACCESS_TOKEN_URL = "https://github.com/login/oauth/access_token";
 	const GET_OPENID_URL = "https://api.github.com/user";
 	const GET_USER_INFO_URL = "https://api.github.com/user";
-	
+
 	private $AppKey;
 	public $AccessToken = null;
 	public $OpenID = null;
 	public $NickName = null;
 	public $AvatarURL = null;
-	
+
 	function __construct($AppKey)
 	{
 		$this->AppKey = $AppKey;
 		//$this->GetAccessToken();
 		//$this->GetOpenID();
 	}
-	
-	
+
+
 	public static function AuthorizeURL($WebsitePath, $AppID, $AppKey, $SendState)
 	{
 		var_dump($WebsitePath);
@@ -35,8 +35,8 @@ class Oauth
 		);
 		return self::GET_AUTH_CODE_URL . '?' . http_build_query($RequestParameter);
 	}
-	
-	
+
+
 	public function GetAccessToken($WebsitePath, $AppID, $AppSecret, $Code)
 	{
 		// request parameter list
@@ -59,8 +59,8 @@ class Oauth
 			return true;
 		}
 	}
-	
-	
+
+
 	public function GetOpenID()
 	{
 		// request parameter list
@@ -77,8 +77,8 @@ class Oauth
 			return $UserInfo['id'];
 		}
 	}
-	
-	
+
+
 	public function GetUserInfo()
 	{
 		// request parameter list

@@ -6,7 +6,7 @@ class PDOLog
 	{
 		$this->path = __DIR__ . $this->path;
 	}
-	
+
 	public function write($message, $fileSalt)
 	{
 		$date = new DateTime();

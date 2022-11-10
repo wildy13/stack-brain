@@ -2,7 +2,7 @@
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 ?>
 <script type="text/javascript">
-loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/account.function.js?version=<?php echo STACK_BRAIN_VERSION; ?>",function() {});
+	loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/account.function.js?version=<?php echo STACK_BRAIN_VERSION; ?>", function() {});
 </script>
 <!-- main-content start -->
 <div class="main-content">
@@ -10,9 +10,9 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/account.func
 		<a href="<?php echo $Config['WebsitePath']; ?>/"><?php echo $Config['SiteName']; ?></a> &raquo; <?php echo $Lang['Set_Your_Username']; ?>
 	</div>
 	<div class="main-box">
-		<?php if($Message){ ?>
-		<p class="red fs14" style="margin-left:60px;">
-		› <?php echo $Message; ?> <br/></p>
+		<?php if ($Message) { ?>
+			<p class="red fs14" style="margin-left:60px;">
+				› <?php echo $Message; ?> <br /></p>
 		<?php } ?>
 		<form action="" method="post">
 			<input type="hidden" name="FormHash" value="<?php echo $FormHash; ?>" />
@@ -33,9 +33,9 @@ loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/account.func
 		</form>
 	</div>
 </div>
-	<!-- main-content end -->
-	<!-- main-sider start -->
-	<div class="main-sider">
-	<?php include($TemplatePath.'sider.php'); ?>
-	</div>
-	<!-- main-sider end -->
+<!-- main-content end -->
+<!-- main-sider start -->
+<div class="main-sider">
+	<?php include($TemplatePath . 'sider.php'); ?>
+</div>
+<!-- main-sider end -->

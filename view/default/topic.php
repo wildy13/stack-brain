@@ -8,7 +8,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 <div class="main-content">
 	<?php
 	if ($Page == 1) {
-		?>
+	?>
 		<!-- post main content start -->
 		<div class="main-box without-title">
 			<div class="topic-title">
@@ -20,7 +20,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 						</a>
 						at <?php echo FormatTime($Topic['PostTime']); ?>
 						• <?php echo $Topic['Favorites']; ?><?php echo $Lang['People_Collection']; ?>
-						• <?php echo($Topic['Views'] + 1); ?><?php echo $Lang['People_Have_Seen']; ?>
+						• <?php echo ($Topic['Views'] + 1); ?><?php echo $Lang['People_Have_Seen']; ?>
 					</div>
 				</div>
 				<div class="detail-avatar">
@@ -43,12 +43,11 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 						<?php
 						if ($Topic['Tags']) {
 							foreach (explode("|", $Topic['Tags']) as $Tag) {
-								?>
-								<a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>"
-								   id="Tag<?php echo md5($Tag); ?>">
+						?>
+								<a href="<?php echo $Config['WebsitePath']; ?>/tag/<?php echo urlencode($Tag); ?>" id="Tag<?php echo md5($Tag); ?>">
 									<?php echo $Tag; ?>
 								</a>
-								<?php
+						<?php
 							}
 						}
 						?>
@@ -58,28 +57,27 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 						<a href="###" class="edittag" onclick="javascript:EditTags();">
 							<?php echo $Lang['Edit_Tags']; ?>
 						</a>
-						<?php
+					<?php
 					}
-					?></div>
+					?>
+				</div>
 
 				<div id="EditTags" style="display:none;">
 					<div id="EditTagsElements">
 						<?php
 						if ($Topic['Tags']) {
 							foreach (explode("|", $Topic['Tags']) as $Tag) {
-								?>
-								<a href="###"
-								   onclick="javascript:DeleteTag(<?php echo $ID; ?>, this, '<?php echo $Tag; ?>');">
+						?>
+								<a href="###" onclick="javascript:DeleteTag(<?php echo $ID; ?>, this, '<?php echo $Tag; ?>');">
 									<?php echo $Tag; ?>&nbsp;×
 								</a>
-								<?php
+						<?php
 							}
 						}
 						?>
 					</div>
 					<div class="c"></div>
-					<input type="text" name="AlternativeTag" id="AlternativeTag" value="" class="float-left w200"
-						   placeholder="<?php echo $Lang['Add_Tags']; ?>"/>
+					<input type="text" name="AlternativeTag" id="AlternativeTag" value="" class="float-left w200" placeholder="<?php echo $Lang['Add_Tags']; ?>" />
 					<a href="###" class="edittag" onclick="javascript:CompletedEditingTags();">
 						<?php echo $Lang['Complete_Edit_Tags']; ?>
 					</a>
@@ -90,57 +88,48 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 					<?php
 					if ($CurUserRole >= 4) {
 						if ($Topic['IsDel'] == 0) {
-							?>
-							<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Delete', true, this);"
-							   style="float:right;">
+					?>
+							<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Delete', true, this);" style="float:right;">
 								<?php echo $Lang['Delete']; ?>
 							</a>
-							<?php
+						<?php
 						} else {
-							?>
-							<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Recover', false, this);"
-							   style="float:right;">
+						?>
+							<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Recover', false, this);" style="float:right;">
 								<?php echo $Lang['Recover']; ?>
 							</a>
-							<a href="###"
-							   onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'PermanentlyDelete', true, this);"
-							   style="float:right;">
+							<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'PermanentlyDelete', true, this);" style="float:right;">
 								<?php echo $Lang['Permanently_Delete']; ?>
 							</a>
-							<?php
+						<?php
 						}
 						?>
-						<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Lock', true, this);"
-						   style="float:right;">
+						<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Lock', true, this);" style="float:right;">
 							<?php echo $Topic['IsLocked'] ? $Lang['Unlock'] : $Lang['Lock']; ?>
 						</a>
-						<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Sink', true, this);"
-						   style="float:right;">
+						<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Sink', true, this);" style="float:right;">
 							<?php echo $Lang['Sink']; ?>
 						</a>
-						<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Rise', true, this);"
-						   style="float:right;">
+						<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 1, 'Rise', true, this);" style="float:right;">
 							<?php echo $Lang['Rise']; ?>
 						</a>
-						<?php
+					<?php
 					}
 					?>
 					<?php
 					if ($CurUserRole >= 4 || ($Config['AllowEditing'] === 'true' && $Topic['UserID'] == $CurUserID)) {
-						?>
-						<a href="###" onclick="javascript:EditPost(<?php echo $PostsArray[0]['ID']; ?>);"
-						   style="float:right;">
+					?>
+						<a href="###" onclick="javascript:EditPost(<?php echo $PostsArray[0]['ID']; ?>);" style="float:right;">
 							<?php echo $Lang['Edit']; ?>
 						</a>
-						<?php
+					<?php
 					}
 					if ($CurUserID) {
-						?>
-						<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 4, 1, false, this);"
-						   style="float:right;">
+					?>
+						<a href="###" onclick="javascript:Manage(<?php echo $ID; ?>, 4, 1, false, this);" style="float:right;">
 							<?php echo $IsFavorite ? $Lang['Unsubscribe'] : $Lang['Collect']; ?>
 						</a>
-						<?php
+					<?php
 					}
 					?>
 				</div>
@@ -148,11 +137,11 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 			</div>
 		</div>
 		<!-- post main content end -->
-		<?php
+	<?php
 		unset($PostsArray[0]);
 	}
 	if ($Topic['Replies'] != 0) {
-		?>
+	?>
 		<!-- comment list start -->
 		<div class="title">
 			<?php echo $Topic['Replies']; ?> <?php echo $Lang['Replies']; ?>
@@ -162,7 +151,7 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 			<?php
 			foreach ($PostsArray as $key => $Post) {
 				$PostFloor = ($Page - 1) * $Config['PostsPerPage'] + $key;
-				?>
+			?>
 				<div class="comment-item">
 					<a name="Post<?php echo $Post['ID']; ?>"></a>
 					<div class="comment-avatar">
@@ -173,56 +162,49 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 					<div class="comment-data">
 						<div class="comment-content">
 							<div>
-								<div class="float-left text-bold fs14"><a
-											href="<?php echo $Config['WebsitePath'] . '/u/' . urlencode($Post['UserName']); ?>"><?php echo $Post['UserName']; ?></a>
+								<div class="float-left text-bold fs14"><a href="<?php echo $Config['WebsitePath'] . '/u/' . urlencode($Post['UserName']); ?>"><?php echo $Post['UserName']; ?></a>
 								</div>
 								<span class="float-right grey fs12">
-						<?php echo FormatTime($Post['PostTime']); ?>&nbsp;&nbsp;
-						<a href="#Post<?php echo $Post['ID']; ?>">
-							<span class="commonet-count">
-								#<?php echo $PostFloor; ?>
-							</span>
-						</a>
-					</span>
+									<?php echo FormatTime($Post['PostTime']); ?>&nbsp;&nbsp;
+									<a href="#Post<?php echo $Post['ID']; ?>">
+										<span class="commonet-count">
+											#<?php echo $PostFloor; ?>
+										</span>
+									</a>
+								</span>
 							</div>
 							<div class="c"></div>
 							<div id="p<?php echo $Post['ID']; ?>">
 								<?php echo $Post['Content']; ?>
 							</div>
-							<div id="edit<?php echo $Post['ID']; ?>" style="width:588px;height:auto;"
-								 class="hide"></div>
+							<div id="edit<?php echo $Post['ID']; ?>" style="width:588px;height:auto;" class="hide"></div>
 						</div>
 						<?php if ($CurUserID) { ?>
 							<div class="comment-button">
 								<div class="float-left">
 									<?php
 									if ($CurUserRole >= 4 || ($Config['AllowEditing'] === 'true' && $Post['UserID'] == $CurUserID)) {
-										?><a href="###" onclick="javascript:EditPost(<?php echo $Post['ID']; ?>);"
-											 title="<?php echo $Lang['Edit']; ?>">
+									?><a href="###" onclick="javascript:EditPost(<?php echo $Post['ID']; ?>);" title="<?php echo $Lang['Edit']; ?>">
 											<div class="icon icon-edit"></div>
 										</a>&nbsp;&nbsp;&nbsp;&nbsp;<?php } ?>
-									<?php if ($CurUserRole >= 4) { ?>
-										<a href="###"
-										   onclick="javascript:Manage(<?php echo $Post['ID']; ?>, 2, 'Delete', true, this);"
-										   title="<?php echo $Lang['Delete']; ?>">
-											<div class="icon icon-delete"></div>
-										</a>
-									<?php } ?>
+										<?php if ($CurUserRole >= 4) { ?>
+											<a href="###" onclick="javascript:Manage(<?php echo $Post['ID']; ?>, 2, 'Delete', true, this);" title="<?php echo $Lang['Delete']; ?>">
+												<div class="icon icon-delete"></div>
+											</a>
+										<?php } ?>
 								</div>
 								<div class="float-right">
-									<a href="#reply" title="<?php echo $Lang['Reply']; ?>"
-									   onclick="JavaScript:Reply('<?php echo $Post['UserName']; ?>', <?php echo $PostFloor; ?>, <?php echo $Post['ID']; ?>);">
+									<a href="#reply" title="<?php echo $Lang['Reply']; ?>" onclick="JavaScript:Reply('<?php echo $Post['UserName']; ?>', <?php echo $PostFloor; ?>, <?php echo $Post['ID']; ?>);">
 										<div class="icon icon-reply"></div>
 									</a>
 									<?php
 									if ($EnableQuote) {
-										?>
+									?>
 										&nbsp;&nbsp;&nbsp;&nbsp;
-										<a href="#reply" title="<?php echo $Lang['Quote']; ?>"
-										   onclick="JavaScript:Quote('<?php echo $Post['UserName']; ?>', <?php echo $PostFloor; ?>, <?php echo $Post['ID']; ?>);">
+										<a href="#reply" title="<?php echo $Lang['Quote']; ?>" onclick="JavaScript:Quote('<?php echo $Post['UserName']; ?>', <?php echo $PostFloor; ?>, <?php echo $Post['ID']; ?>);">
 											<div class="icon icon-quote"></div>
 										</a>
-										<?php
+									<?php
 									}
 									?>
 								</div>
@@ -233,53 +215,52 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 					</div>
 					<div class="c"></div>
 				</div>
-				<?php
+			<?php
 			}
 			if ($TotalPage > 1) {
-				?>
+			?>
 				<div class="pagination">
 					<?php Pagination("/t/" . $ID . "-", $Page, $TotalPage); ?>
 					<div class="c"></div>
 				</div>
-				<?php
+			<?php
 			}
 			?>
 		</div>
 		<!-- comment list end -->
-		<?php
+	<?php
 	}
 	?>
 	<!-- editor start -->
 	<?php
 	if ($Topic['IsLocked'] || (!$Topic['IsLocked'] && !$CurUserInfo)) {
-		?>
+	?>
 		<script type="text/javascript">
-			loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/topic.function.js?version=<?php echo STACK_BRAIN_VERSION; ?>", function () {
-				loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.parse.min.js?version=<?php echo STACK_BRAIN_VERSION; ?>", function () {
+			loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/topic.function.js?version=<?php echo STACK_BRAIN_VERSION; ?>", function() {
+				loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.parse.min.js?version=<?php echo STACK_BRAIN_VERSION; ?>", function() {
 					RenderTopic();
 				});
 			});
 		</script>
-		<script type="text/javascript" charset="utf-8"
-				src="<?php echo $Config['WebsitePath']; ?>/static/js/default/topic.function.js?version=<?php echo STACK_BRAIN_VERSION; ?>"></script>
+		<script type="text/javascript" charset="utf-8" src="<?php echo $Config['WebsitePath']; ?>/static/js/default/topic.function.js?version=<?php echo STACK_BRAIN_VERSION; ?>"></script>
 		<div class="ad">
 			<p><?php echo $Topic['IsLocked'] ? $Lang['Topic_Has_Been_Locked'] : $Lang['Requirements_For_Login'];; ?></p>
 		</div>
 	<?php
-	}else{
+	} else {
 	?>
 
 		<a name="reply"></a>
 		<script type="text/javascript">
-			var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>;//主题内容最多字节数
-			loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/topic.function.js?version=<?php echo STACK_BRAIN_VERSION; ?>", function () {
+			var MaxPostChars = <?php echo $Config['MaxPostChars']; ?>; 
+			loadScript("<?php echo $Config['WebsitePath']; ?>/static/js/default/topic.function.js?version=<?php echo STACK_BRAIN_VERSION; ?>", function() {
 				InitNewTagsEditor();
-				loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.config.js?version=<?php echo STACK_BRAIN_VERSION; ?>", function () {
-					loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.all.min.js?version=<?php echo STACK_BRAIN_VERSION; ?>", function () {
-						loadScript("<?php echo $Config['WebsitePath']; ?>/language/<?php echo ForumLanguage; ?>/<?php echo ForumLanguage; ?>.js?version=<?php echo STACK_BRAIN_VERSION; ?>", function () {
+				loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.config.js?version=<?php echo STACK_BRAIN_VERSION; ?>", function() {
+					loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.all.min.js?version=<?php echo STACK_BRAIN_VERSION; ?>", function() {
+						loadScript("<?php echo $Config['WebsitePath']; ?>/language/<?php echo ForumLanguage; ?>/<?php echo ForumLanguage; ?>.js?version=<?php echo STACK_BRAIN_VERSION; ?>", function() {
 							$("#editor").empty();
 							InitEditor();
-							loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.parse.min.js?version=<?php echo STACK_BRAIN_VERSION; ?>", function () {
+							loadScript("<?php echo $Config['WebsitePath']; ?>/static/editor/ueditor.parse.min.js?version=<?php echo STACK_BRAIN_VERSION; ?>", function() {
 								RenderTopic();
 							});
 						});
@@ -293,14 +274,13 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 			<p>
 			<div id="editor" style="width:100%;height:180px;">Loading……</div>
 			</p>
-			<div class="float-right"><input type="button" value="<?php echo $Lang['Reply']; ?>(Ctrl+Enter)"
-											class="textbtn" id="ReplyButton" onclick="JavaScript:ReplyToTopic();"/>
+			<div class="float-right"><input type="button" value="<?php echo $Lang['Reply']; ?>(Ctrl+Enter)" class="textbtn" id="ReplyButton" onclick="JavaScript:ReplyToTopic();" />
 			</div>
 			<div class="c"></div>
 			<p></p>
 		</form>
 
-		<?php
+	<?php
 	}
 	?>
 	<!-- editor end -->
@@ -311,7 +291,8 @@ if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 	<?php include($TemplatePath . 'sider.php'); ?>
 </div>
 <!-- main-sider end -->
-<?php // reply mouse tip start?>
+<?php // reply mouse tip start
+?>
 <div class="reply-mouse-tip sider-box" id="reply-mouse-tip">
 	<a class="author" href="javascript:;"></a>
 	<div class="content">Loading...</div>

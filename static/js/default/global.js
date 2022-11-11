@@ -1,28 +1,3 @@
-/*
- * Carbon-Forum
- * https://github.com/lincanbin/Carbon-Forum
- *
- * Copyright 2006-2017 Canbin Lin (lincanbin@hotmail.com)
- * http://www.94cb.com/
- *
- * Licensed under the Apache License, Version 2.0:
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * A high performance open-source forum software written in PHP. 
- */
-
-
-/*
-// 当使用的jQuery CDN爆炸时，切换到当前服务器的jQuery备胎
-if (!window.jQuery) {
-	console.log('Switch to jQuery Backup.');
-	loadScript(WebsitePath + "/static/js/jquery.js",function(){
-		loadScript(WebsitePath + "/static/js/global.js",function(){});
-	});
-}
-*/
-
-
 function renderTemplate(template, list) {
 
 	var buffer = [];
@@ -261,7 +236,6 @@ $(function() {
 		setButtonToTop();
 	});
 	//$(document).pjax('a', 'body');
-	//改变导航栏的点击CSS
 	$(".buttons a").click(function(e) {
 		//console.log($(this));
 		$(".buttons a").removeClass();
@@ -269,7 +243,6 @@ $(function() {
 	});
 });
 
-//登录前检查用户名是否存在
 function CheckUserNameExist() {
 	if ($("#UserName").val()) {
 		$.ajax({
@@ -293,7 +266,6 @@ function CheckUserNameExist() {
 }
 
 
-//获取实时信息通知
 function GetNotification() {
 	var NotificationSettings = {
 		type: "post",
@@ -305,15 +277,12 @@ function GetNotification() {
 			if (Data.Status !== 0) {
 				ShowNotification(Data.NewMessage);
 			}
-			//获取到新消息，30秒后再请求
-			//没有则3秒后再开新线程
 			setTimeout(function() {
 				$.ajax(NotificationSettings);
 			},
 			(Data.NewMessage > 0) ? 30000 : 3000);
 		},
 		error: function() {
-			//遇见错误15秒后重试
 			setTimeout(function() {
 				$.ajax(NotificationSettings);
 			},
@@ -324,7 +293,6 @@ function GetNotification() {
 	console.log('start getting notification at ' + new Date().toLocaleString());
 }
 
-//HTML5的Notification API，用来进行消息提示
 function ShowNotification(NewMessageNumber) {
 	if (NewMessageNumber > 0) {
 		document.title = '(' + Lang['New_Message'].replace('{{NewMessage}}', NewMessageNumber) + ')' + document.title.replace(new RegExp(('\\(' + Lang['New_Message'] + '\\)').replace('{{NewMessage}}', '\\d+'), "g"), '');
@@ -334,15 +302,13 @@ function ShowNotification(NewMessageNumber) {
 		if(window.localStorage){
 			var NotificationTime = localStorage.getItem(Prefix + "NotificationTime");
 			if(NotificationTime){
-				//如果距离上次弹出时间大于30s，才允许弹出通知
 				EnableNotification = (Math.round(new Date().getTime()/1000)-parseInt(NotificationTime))>30;
 				console.log(EnableNotification);
 			}
 		}
 		if (EnableNotification && window.Notification && Notification.permission !== "denied") {
-			Notification.requestPermission(function(Status) { // 请求权限
+			Notification.requestPermission(function(Status) { 
 				if (Status === 'granted') {
-					// 弹出一个通知
 					var CarbonNotification = new Notification(Lang["New_Message"].replace("{{NewMessage}}", NewMessageNumber), {
 						icon: WebsitePath + '/static/img/apple-touch-icon-57x57-precomposed.png',
 						body: ""
@@ -350,11 +316,9 @@ function ShowNotification(NewMessageNumber) {
 					CarbonNotification.onclick = function() {
 						window.open(document.location.protocol + "//" + location.host + WebsitePath + "/notifications/list#notifications1");
 					};
-					//设置通知弹出的Unix时间戳，实现多网页同步，以防止多次弹出窗口。
 					if(window.localStorage){
 						localStorage.setItem(Prefix + "NotificationTime", Math.round(new Date().getTime()/1000));
 					}
-					// 30秒后关闭通知
 					setTimeout(function() {
 						CarbonNotification.close();
 					},
@@ -372,7 +336,6 @@ function ShowNotification(NewMessageNumber) {
 }
 
 
-//异步非阻塞加载JavaScript脚本文件
 function loadScript(url, callback) {
 	var script = document.createElement("script");
 	script.id = md5(url);
@@ -398,7 +361,6 @@ function loadScript(url, callback) {
 	}
 }
 
-//管理函数的完成回调
 function ManageCallback(TargetTag) {
 	this.Success = function(Json) {
 		if (Json.Status === 1) {
@@ -412,7 +374,6 @@ function ManageCallback(TargetTag) {
 	};
 }
 
-//管理
 function Manage(ID, Type, Action, NeedToConfirm, TargetTag) {
 	var Lang = Lang || window.Lang;
 	if (NeedToConfirm ? confirm(Lang['Confirm_Operation']) : true) {

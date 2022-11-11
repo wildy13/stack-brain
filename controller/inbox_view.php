@@ -19,7 +19,6 @@ if (empty($InboxID) || empty($DialogInfo)) {
 
 $ContactUserName = $DialogInfo['SenderID'] == $CurUserID ? $DialogInfo['ReceiverName'] : $DialogInfo['SenderName'];
 
-// 页面变量
 $PageTitle   = str_replace('{{UserName}}', $ContactUserName, $Lang['Chat_With_SB']);
 $ContentFile = $TemplatePath . 'inbox.php';
 include($TemplatePath . 'layout.php');

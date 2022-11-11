@@ -41,10 +41,8 @@ if ($CurUserID) {
 		'FavoriteID' => $ID
 	)));
 }
-//更新浏览量
 if ($MCache) {
 	$TopicViews = $MCache->get(MemCachePrefix . 'Topic_Views_' . $ID);
-	//30天内攒满200次点击，Update一次数据库数据
 	if ($TopicViews && ($TopicViews - $Topic['Views']) >= 200) {
 		$DB->query("UPDATE " . PREFIX . "topics 
 			FORCE INDEX(PRI) 
@@ -53,7 +51,6 @@ if ($MCache) {
 			"LastViewedTime" => $TimeStamp,
 			"ID" => $ID
 		));
-		//清理主题缓存
 		$MCache->delete(MemCachePrefix . 'Topic_' . $ID);
 	}
 	$Topic['Views'] = (($TopicViews) ? $TopicViews : $Topic['Views']) + 1;
@@ -66,7 +63,6 @@ if ($MCache) {
 		"ID" => $ID
 	));
 }
-//当回复内容与欲回复内容会同页时，不显示引用按钮
 if ($Page != $TotalPage || ($Topic['Replies'] + 1) % $Config['PostsPerPage'] == 0) {
 	$EnableQuote = true;
 } else {

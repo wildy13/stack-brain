@@ -1,7 +1,6 @@
 <?php
 if (!defined('InternalAccess')) exit('error: 403 Access Denied');
 
-//只有上一页下一页的分页
 function PaginationSimplified($PageUrl, $CurrentPage, $IsLastPage = false)
 {
 	global $Config, $Lang;
@@ -13,7 +12,6 @@ function PaginationSimplified($PageUrl, $CurrentPage, $IsLastPage = false)
 		echo '<div class="float-right"><a href="' . $PageUrl . ($CurrentPage + 1) . '">' . $Lang['Page_Next'] . '&rsaquo;&rsaquo;</a></div>';
 }
 
-//分页
 function Pagination($PageUrl, $CurrentPage, $TotalPage)
 {
 	if ($TotalPage <= 1)

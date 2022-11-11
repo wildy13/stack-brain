@@ -28,7 +28,6 @@ class ImageResize
 		if (stristr($_FILES[$this->PostField]['type'], "image")) {
 			$this->ImageSize = getimagesize($_FILES[$this->PostField]['tmp_name']);
 			if ($this->ImageSize) {
-				//创建源图片
 				/* 
 				$ImageTypeArray = array(
 					0=>'UNKNOWN',

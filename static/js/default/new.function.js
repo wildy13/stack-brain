@@ -1,20 +1,6 @@
-/*
- * Carbon-Forum
- * https://github.com/lincanbin/Carbon-Forum
- *
- * Copyright 2006-2017 Canbin Lin (lincanbin@hotmail.com)
- * http://www.94cb.com/
- *
- * Licensed under the Apache License, Version 2.0:
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * A high performance open-source forum software written in PHP. 
- */
-
 function InitNewTopicEditor() {
 	UE.delEditor('editor');
 	//Initialize editor
-	//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
 	window.UEDITOR_CONFIG['textarea'] = 'Content';
 	// http://fex.baidu.com/ueditor/#start-toolbar
 	window.UEDITOR_CONFIG['toolbars'] = [
@@ -28,9 +14,9 @@ function InitNewTopicEditor() {
 			'bold',
 			'italic',
 			'underline',
-			'strikethrough', //删除线
-			'forecolor', //字体颜色
-			'backcolor', //背景色
+			'strikethrough', 
+			'forecolor', 
+			'backcolor', 
 			'paragraph',
 			'fontsize',
 			'fontfamily',
@@ -54,22 +40,21 @@ function InitNewTopicEditor() {
 			'insertvideo',
 			//'music',
 			'attachment',
-			'map', //Baidu地图
-			'gmap', //Google地图
+			'map', 
+			'gmap', 
 			'|',
 			'inserttable',
-			'insertrow', //前插入行
-			'insertcol', //前插入列
+			'insertrow', 
+			'insertcol', 
 			'|',
-			'searchreplace', //查询替换
-			'template', //模板
+			'searchreplace', 
+			'template', 
 			'removeformat',
 			'autotypeset'
 		]
 	];
 	UE.getEditor('editor', {
 		onready: function () {
-			//从草稿中恢复
 			if (window.localStorage) {
 				if (typeof SaveDraftTimer !== "undefined") {
 					clearInterval(SaveDraftTimer);
@@ -84,13 +69,11 @@ function InitNewTopicEditor() {
 				SaveDraftTimer = setInterval(function () {//Global
 						SaveTopicDraft();
 					},
-					1000); //每隔N秒保存一次
+					1000); 
 			}
-			//二次提交，恢复现场
 			if (Content) {
 				this.setContent(Content);
 			}
-			//编辑器内Ctrl + Enter提交回复
 			var ueditor_id = 'ueditor_0';
 			var frames = document.getElementsByTagName('iframe');
 			for (var i = 0; i < frames.length; i++) {
@@ -104,12 +87,10 @@ function InitNewTopicEditor() {
 			};
 		}
 	});
-	//编辑器外Ctrl + Enter提交回复
 	document.body.onkeydown = function (Event) {
 		CtrlAndEnter(Event, true);
 	};
 
-	//话题自动补全
 	// Initialize ajax autocomplete:
 	$("#AlternativeTag").autocomplete({
 		serviceUrl: WebsitePath + '/json/tag_autocomplete',
@@ -149,12 +130,10 @@ function InitNewTopicEditor() {
 }
 
 
-//Ctrl + Enter操作接收函数
 function CtrlAndEnter(Event, IsPreventDefault) {
 	//console.log("keydown");
 	if (Event.keyCode === 13) {
 		if (IsPreventDefault) {
-			//屏蔽Tag输入框的回车提交，阻止回车的默认操作
 			Event.preventDefault ? Event.preventDefault() : Event.returnValue = false;
 		}
 		if (Event.ctrlKey) {
@@ -164,7 +143,6 @@ function CtrlAndEnter(Event, IsPreventDefault) {
 }
 
 /*
- //添加标题、内容输入框失焦监听器
  $(document).ready(function(){
  if(document.attachEvent){
  document.getElementsByName("Content")[0].attachEvent("onblur",function(){GetTags();});
@@ -175,7 +153,6 @@ function CtrlAndEnter(Event, IsPreventDefault) {
  });
  */
 
-//提交前的检查
 function CreateNewTopic() {
 	if (!document.NewForm.Title.value.length) {
 		alert(Lang['Title_Can_Not_Be_Empty']);
@@ -219,7 +196,6 @@ function CreateNewTopic() {
 					});
 					//location.href = WebsitePath + "/t/" + data.TopicID;
 					if (window.localStorage) {
-						//清空草稿箱
 						StopTopicAutoSave();
 					}
 				} else {
@@ -249,7 +225,6 @@ function CheckTag(TagName, IsAdd) {
 		if (TagName === $(this).val() || TagName === '') {
 			show = false;
 		}
-		//简单的前端过滤，后端有更严格的白名单过滤所以这里随便写个正则应付下了。
 		if (TagName.match(/[&|<|>|"|']/g) !== null) {
 			//alert('Invalid input! ')
 			show = false;
@@ -261,7 +236,6 @@ function CheckTag(TagName, IsAdd) {
 
 function GetTags() {
 	var CurrentContentHash = md5(document.NewForm.Title.value + UE.getEditor('editor').getContentTxt());
-	//取Title与Content 联合Hash值，与之前input的内容比较，不同则开始获取话题，随后保存进hidden input。
 	if (CurrentContentHash !== document.NewForm.ContentHash.value) {
 		if (document.NewForm.Title.value.length || UE.getEditor('editor').getContentTxt().length) {
 			$.ajax({
@@ -344,11 +318,11 @@ function SaveTopicDraft() {
 }
 
 function StopTopicAutoSave() {
-	clearInterval(SaveDraftTimer); //停止保存
-	localStorage.removeItem(Prefix + "TopicTitle"); //清空标题
-	localStorage.removeItem(Prefix + "TopicContent"); //清空内容
-	localStorage.removeItem(Prefix + "TopicTagsList"); //清空标签
-	UE.getEditor('editor').execCommand("clearlocaldata"); //清空Ueditor草稿箱
+	clearInterval(SaveDraftTimer); 
+	localStorage.removeItem(Prefix + "TopicTitle"); 
+	localStorage.removeItem(Prefix + "TopicContent"); 
+	localStorage.removeItem(Prefix + "TopicTagsList");
+	UE.getEditor('editor').execCommand("clearlocaldata"); 
 }
 
 function RecoverTopicContents() {

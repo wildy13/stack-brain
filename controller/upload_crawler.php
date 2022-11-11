@@ -6,7 +6,6 @@ SetStyle('api', 'API');
 header("Content-Type: text/html; charset=utf-8");
 Auth(1, 0, true);
 
-/* 上传配置 */
 $config    = array(
 	"pathFormat" => $Config['WebsitePath'] . $UploadConfig['catcherPathFormat'],
 	"maxSize" => $UploadConfig['catcherMaxSize'],
@@ -15,7 +14,6 @@ $config    = array(
 );
 $fieldName = $UploadConfig['catcherFieldName'];
 
-/* 抓取远程图片 */
 $list = array();
 if (isset($_POST[$fieldName])) {
 	$source = $_POST[$fieldName];
@@ -35,7 +33,6 @@ foreach ($source as $imgUrl) {
 	));
 }
 
-/* 返回抓取数据 */
 return json_encode(array(
 	'state' => count($list) ? 'SUCCESS' : 'ERROR',
 	'list' => $list

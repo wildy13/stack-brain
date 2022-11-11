@@ -1,23 +1,8 @@
 /*
- * Carbon-Forum
- * https://github.com/lincanbin/Carbon-Forum
- *
- * Copyright 2006-2017 Canbin Lin (lincanbin@hotmail.com)
- * http://www.94cb.com/
- *
- * Licensed under the Apache License, Version 2.0:
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * A high performance open-source forum software written in PHP. 
- */
-
-/*
-//编辑框自适应高度
 document.getElementById("Content").onkeyup = function(e) {
 	document.getElementById("Content").style.height = (parseInt(document.getElementById("Content").scrollHeight) + 2) + "px";
 };
 */
-//提交前的检查
 function CreateNewTopic() {
 	if (!document.NewForm.Title.value.length) {
 		CarbonAlert(Lang['Title_Can_Not_Be_Empty']);
@@ -53,7 +38,6 @@ function CreateNewTopic() {
 			type: 'post',
 			dataType: 'json',
 			success: function(data) {
-				//TODO: 隐藏Toast
 				if (data.Status == 1) {
 					$("#PublishButton").val(Lang['Submit_Success']);
 					$.afui.loadContent(
@@ -88,7 +72,6 @@ function CheckTag(TagName, IsAdd) {
 		if (TagName == $(this).val() || TagName == '') {
 			show = false;
 		}
-		//简单的前端过滤，后端有更严格的白名单过滤所以这里随便写个正则应付下了。
 		if (TagName.match(/[&|<|>|"|']/g) != null) {
 			//alert('Invalid input! ')
 			show = false;
@@ -100,8 +83,7 @@ function CheckTag(TagName, IsAdd) {
 
 function GetTags() {
 	var CurrentContentHash = md5(document.NewForm.Title.value + document.NewForm.Content.value);
-	//取Title与Content 联合Hash值，与之前input的内容比较，不同则开始获取话题，随后保存进hidden input。
-	if (CurrentContentHash != document.NewForm.ContentHash.value) {
+		if (CurrentContentHash != document.NewForm.ContentHash.value) {
 		if (document.NewForm.Title.value.length || document.NewForm.Content.value.length) {
 			$.ajax({
 				url: WebsitePath + '/json/get_tags',

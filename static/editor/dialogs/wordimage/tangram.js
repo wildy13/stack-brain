@@ -1267,20 +1267,17 @@ baidu.json = baidu.json || {};
 
 
 /**
- * 将字符串解析成json对象。注：不会自动祛除空格
  * @name baidu.json.parse
  * @function
  * @grammar baidu.json.parse(data)
- * @param {string} source 需要解析的字符串
+ * @param {string} source 
  * @remark
- * 该方法的实现与ecma-262第五版中规定的JSON.parse不同，暂时只支持传入一个参数。后续会进行功能丰富。
  * @meta standard
  * @see baidu.json.stringify,baidu.json.decode
  *             
- * @returns {JSON} 解析结果json对象
+ * @returns {JSON} 
  */
 baidu.json.parse = function (data) {
-	//2010/12/09：更新至不使用原生parse，不检测用户输入是否正确
 	return (new Function("return (" + data + ")"))();
 };
 /*
@@ -1296,15 +1293,14 @@ baidu.json.parse = function (data) {
 
 
 /**
- * 将字符串解析成json对象，为过时接口，今后会被baidu.json.parse代替
  * @name baidu.json.decode
  * @function
  * @grammar baidu.json.decode(source)
- * @param {string} source 需要解析的字符串
+ * @param {string} source
  * @meta out
  * @see baidu.json.encode,baidu.json.parse
  *             
- * @returns {JSON} 解析结果json对象
+ * @returns {JSON} 
  */
 baidu.json.decode = baidu.json.parse;
 /*
@@ -1320,21 +1316,18 @@ baidu.json.decode = baidu.json.parse;
 
 
 /**
- * 将json对象序列化
  * @name baidu.json.stringify
  * @function
  * @grammar baidu.json.stringify(value)
- * @param {JSON} value 需要序列化的json对象
+ * @param {JSON} value 
  * @remark
- * 该方法的实现与ecma-262第五版中规定的JSON.stringify不同，暂时只支持传入一个参数。后续会进行功能丰富。
  * @meta standard
  * @see baidu.json.parse,baidu.json.encode
  *             
- * @returns {string} 序列化后的字符串
+ * @returns {string}
  */
 baidu.json.stringify = (function () {
 	/**
-	 * 字符串处理时需要转义的字符表
 	 * @private
 	 */
 	var escapeMap = {
@@ -1348,7 +1341,6 @@ baidu.json.stringify = (function () {
 	};
 	
 	/**
-	 * 字符串序列化
 	 * @private
 	 */
 	function encodeString(source) {
@@ -1370,7 +1362,6 @@ baidu.json.stringify = (function () {
 	}
 	
 	/**
-	 * 数组序列化
 	 * @private
 	 */
 	function encodeArray(source) {
@@ -1399,7 +1390,6 @@ baidu.json.stringify = (function () {
 	}
 	
 	/**
-	 * 处理日期序列化时的补零
 	 * @private
 	 */
 	function pad(source) {
@@ -1407,7 +1397,6 @@ baidu.json.stringify = (function () {
 	}
 	
 	/**
-	 * 日期序列化
 	 * @private
 	 */
 	function encodeDate(source){
@@ -1482,14 +1471,13 @@ baidu.json.stringify = (function () {
 
 
 /**
- * 将json对象序列化，为过时接口，今后会被baidu.json.stringify代替
  * @name baidu.json.encode
  * @function
  * @grammar baidu.json.encode(value)
- * @param {JSON} value 需要序列化的json对象
+ * @param {JSON} value
  * @meta out
  * @see baidu.json.decode,baidu.json.stringify
  *             
- * @returns {string} 序列化后的字符串
+ * @returns {string} 
  */
 baidu.json.encode = baidu.json.stringify;

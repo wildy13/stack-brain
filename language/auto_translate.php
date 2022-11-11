@@ -46,7 +46,6 @@ function ListDir($dir)
 						echo $file_path . "\n\n\n";
 
 						switch ($file_extension) {
-							// PHP语言文件翻译
 							case "php":
 								$template = __DIR__ . '/language_template.php';
 
@@ -74,7 +73,6 @@ function ListDir($dir)
 									}
 								}
 								break;
-							// JS语言文件翻译
 							case "js":
 								preg_match('/\{(.*)\}/s', file_get_contents($file_path), $matches);
 								if (empty($matches)) {
@@ -131,7 +129,6 @@ function ListDir($dir)
 									}
 								}
 								break;
-							// 图片等其他语言文件无法翻译，直接复制
 							default:
 								echo "Static file\n\n";
 								foreach ($LanguageList as $language_name) {

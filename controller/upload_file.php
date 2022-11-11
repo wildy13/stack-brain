@@ -5,7 +5,6 @@ SetStyle('api', 'API');
 header("Content-Type: text/html; charset=utf-8");
 Auth(1, 0, true);
 
-/* 上传配置 */
 $base64 = "upload";
 switch (htmlspecialchars($_GET['action'])) {
 	case 'uploadimage':
@@ -45,20 +44,18 @@ switch (htmlspecialchars($_GET['action'])) {
 		break;
 }
 
-/* 生成上传实例对象并完成上传 */
 $up = new Uploader($fieldName, $config, $base64, $CurUserName, $DB);
 
 /**
- * 得到上传文件所对应的各个参数,数组结构
+ * 
  * array(
- *     "state" => "",          //上传状态，上传成功时必须返回"SUCCESS"
- *     "url" => "",            //返回的地址
- *     "title" => "",          //新文件名
- *     "original" => "",       //原始文件名
- *     "type" => ""            //文件类型
- *     "size" => "",           //文件大小
+ *     "state" => "",          
+ *     "url" => "",           
+ *     "title" => "",          
+ *     "original" => "",      
+ *     "type" => ""            
+ *     "size" => "",           
  * )
  */
 
-/* 返回数据 */
 return json_encode($up->getFileInfo());

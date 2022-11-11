@@ -1,20 +1,4 @@
-/* global $ */
-/*
- * Carbon-Forum
- * https://github.com/lincanbin/Carbon-Forum
- *
- * Copyright 2006-2017 Canbin Lin (lincanbin@hotmail.com)
- * http://www.94cb.com/
- *
- * Licensed under the Apache License, Version 2.0:
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * A high performance open-source forum software written in PHP. 
- */
-
-
 function RenderTopic() {
-	//强制所有链接在新窗口中打开
 	var AllPosts = document.getElementsByClassName("comment-content");
 	PostContentLists = {};//Global
 	AllPosts[AllPosts.length] = document.getElementsByClassName("topic-content")[0];
@@ -34,17 +18,15 @@ function RenderTopic() {
 			}
 		}
 	}
-	//样式渲染需最后进行
 	uParse('.topic-content', {
 		'rootPath': WebsitePath + '/static/editor/',
-		'liiconpath': WebsitePath + '/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
+		'liiconpath': WebsitePath + '/static/editor/themes/ueditor-list/'
 	});
 	uParse('.comment-content', {
 		'rootPath': WebsitePath + '/static/editor/',
-		'liiconpath': WebsitePath + '/static/editor/themes/ueditor-list/'//使用 '/' 开头的绝对路径
+		'liiconpath': WebsitePath + '/static/editor/themes/ueditor-list/'
 	});
 
-	// 回帖内容鼠标提示
 	if (TopicID) {
 		var postA = $('a[href*="#Post"]');
 		var posts = {};
@@ -107,9 +89,9 @@ function InitEditor() {
 			'bold',
 			'italic',
 			'underline',
-			'strikethrough', //删除线
-			'forecolor', //字体颜色
-			'backcolor', //背景色
+			'strikethrough', 
+			'forecolor', 
+			'backcolor', 
 			'paragraph',
 			'fontsize',
 			'fontfamily'
@@ -128,15 +110,15 @@ function InitEditor() {
 			'insertvideo',
 			//'music',
 			'attachment',
-			'map', //Baidu地图
-			'gmap', //Google地图
+			'map', 
+			'gmap',
 			'|',
 			'inserttable',
-			'insertrow', //前插入行
-			'insertcol', //前插入列
+			'insertrow', 
+			'insertcol', 
 			'|',
-			'searchreplace', //查询替换
-			'template', //模板
+			'searchreplace',
+			'template', 
 			'autotypeset'
 		]
 	];
@@ -152,13 +134,11 @@ function InitEditor() {
 					console.log('StopAutoSave');
 				}
 				//Try to recover previous article from draft
-				//先恢复现场
 				RecoverContents();
-				//再保存草稿
 				SavePostDraftTimer = setInterval(function () {//Global
 						SavePostDraft();
 					},
-					1000); //每隔N秒保存一次
+					1000); 
 
 			}
 			//Press Ctrl + Enter to submit in editor
@@ -172,7 +152,6 @@ function InitEditor() {
 			}
 		}
 	});
-	//编辑器外Ctrl + Enter提交回复
 	document.body.onkeydown = function (Event) {
 		ReplyCtrlAndEnter(Event);
 	};
@@ -180,7 +159,6 @@ function InitEditor() {
 }
 
 
-//Ctrl + Enter操作接收函数
 function ReplyCtrlAndEnter(Event) {
 	//console.log("keydown");
 	if (Event.ctrlKey && Event.keyCode === 13) {
@@ -190,7 +168,6 @@ function ReplyCtrlAndEnter(Event) {
 }
 
 
-//可以去除tab的trim
 function trim3(str) {
 	if (str) {
 		str = str.replace(/^(\s|\u00A0)+/, '');
@@ -204,7 +181,6 @@ function trim3(str) {
 	return str;
 }
 
-//标签编辑
 function InitNewTagsEditor() {
 	$("#AlternativeTag").keydown(function (e) {
 		var e = e || event;
@@ -239,19 +215,16 @@ function InitNewTagsEditor() {
 }
 
 
-//编辑标签
 function EditTags() {
 	$("#TagsList").hide();
 	$("#EditTags").show();
 }
 
-//完成标签编辑
 function CompletedEditingTags() {
 	$("#EditTags").hide();
 	$("#TagsList").show();
 }
 
-//管理函数的完成回调
 function DeleteTagCallback(TargetTag, TagName) {
 	this.Success = function (Json) {
 		if (Json.Status === 1) {
@@ -263,7 +236,6 @@ function DeleteTagCallback(TargetTag, TagName) {
 	};
 }
 
-//管理
 function DeleteTag(TopicID, TargetTag, TagName) {
 	$(TargetTag).text("Loading");
 	var CallbackObj = new DeleteTagCallback(TargetTag, TagName);
@@ -283,9 +255,7 @@ function DeleteTag(TopicID, TargetTag, TagName) {
 }
 
 
-//编辑帖子
 function EditPost(PostID) {
-	//初始化编辑器
 	//document.getElementById('p' + PostID).style.visibility = "hidden";
 	//document.getElementById('p' + PostID).style.height = "0";
 	$("#p" + PostID).hide();
@@ -302,7 +272,6 @@ function EditPost(PostID) {
 	//document.getElementById('edit' + PostID).style.visibility = "visible";
 }
 
-//取消编辑（销毁编辑器）
 function DestoryEditor(PostID) {
 	UE.getEditor('edit' + PostID).destroy();
 	$("#p" + PostID).show();
@@ -315,7 +284,6 @@ function DestoryEditor(PostID) {
 	//document.getElementById('edit' + PostID).style.visibility = "hidden";
 }
 
-//提交编辑修改
 function SubmitEdit(PostID) {
 	var EditCallbackObj = new EditPostCallback(PostID);
 	$.ajax({
@@ -334,7 +302,6 @@ function SubmitEdit(PostID) {
 
 }
 
-//编辑帖子的回调函数
 function EditPostCallback(PostID) {
 	this.Success = function (Json) {
 		if (Json.Status === 1) {
@@ -348,7 +315,6 @@ function EditPostCallback(PostID) {
 	};
 }
 
-//回复帖子
 function ReplyToTopic() {
 	if (!UE.getEditor('editor').getContent().length) {
 		alert(Lang['Content_Empty']);
@@ -372,10 +338,8 @@ function ReplyToTopic() {
 					console.log(SavePostDraftTimer);
 					$("#ReplyButton").val(Lang['Reply_Success']);
 					if (window.localStorage) {
-						//清空草稿箱
 						StopAutoSave();
 					}
-					//清空编辑器
 					//UE.getEditor('editor').execCommand('cleardoc');
 					console.log(SavePostDraftTimer);
 					$.pjax({
@@ -401,13 +365,11 @@ function ReplyToTopic() {
 }
 
 
-//回复某人
 function Reply(UserName, PostFloor, PostID) {
 	UE.getEditor('editor').setContent('<p>' + Lang['Reply_To'] + '<a href="' + location.pathname + '#Post' + PostID + '">#' + PostFloor + '</a> @' + UserName + ' :<br /></p><p></p>', false);
 	UE.getEditor('editor').focus(true);
 }
 
-//引用某人
 function Quote(UserName, PostFloor, PostID) {
 	UE.getEditor('editor').setContent('<p></p><blockquote><a href="' + location.pathname + '#Post' + PostID + '">#' + PostFloor + '</a> @' + UserName + ' :<br />' + PostContentLists['p' + PostID] + '<blockquote>');
 	UE.getEditor('editor').focus(false);
@@ -429,9 +391,9 @@ function SavePostDraft() {
 }
 
 function StopAutoSave() {
-	clearInterval(SavePostDraftTimer); //停止定时保存
-	localStorage.removeItem(Prefix + "PostContent" + TopicID); //清空内容
-	UE.getEditor('editor').execCommand("clearlocaldata"); //清空Ueditor草稿箱
+	clearInterval(SavePostDraftTimer); 
+	localStorage.removeItem(Prefix + "PostContent" + TopicID);
+	UE.getEditor('editor').execCommand("clearlocaldata"); 
 }
 
 function RecoverContents() {

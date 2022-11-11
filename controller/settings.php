@@ -69,7 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					if (md5(md5($OriginalPassword) . $CurUserInfo['Salt']) === $CurUserInfo['Password'] || $DoNotNeedOriginalPassword) {
 						if ($OriginalPassword != $NewPassword || $DoNotNeedOriginalPassword) {
 							//$NewSalt = mt_rand(100000,999999);
-							//修改Salt会导致密码问题出错
 							$NewSalt         = $CurUserInfo['Salt'];
 							$NewPasswordHash = md5(md5($NewPassword) . $NewSalt);
 							if (UpdateUserInfo(array(
@@ -107,7 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	}
 }
 $DB->CloseConnection();
-// 页面变量
 $PageTitle   = $Lang['Settings'];
 $ContentFile = $TemplatePath . 'settings.php';
 include($TemplatePath . 'layout.php');

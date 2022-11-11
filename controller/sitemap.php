@@ -158,16 +158,15 @@ switch ($Action) {
 		?>
 	<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<?php
-	//帖子
 	for($i = 1; $i <= ceil($Config['NumTopics']/$ItemPerSitemap); $i++)
 		echo '<sitemap><loc>',$CurHost,'/sitemap-topics-',$i,".xml</loc></sitemap>\n";
-	//帖子页
+
 	for($i = 1; $i <= ceil(ceil($Config['NumTopics']/$Config['TopicsPerPage'])/$ItemPerSitemap); $i++)
 		echo '<sitemap><loc>',$CurHost,'/sitemap-pages-',$i,".xml</loc></sitemap>\n";
-	//话题
+
 	for($i = 1; $i <= ceil($Config['NumTags']/$ItemPerSitemap); $i++)
 		echo '<sitemap><loc>',$CurHost,'/sitemap-tags-',$i,".xml</loc></sitemap>\n";
-	//用户
+
 	for($i = 1; $i <= ceil($Config['NumUsers']/$ItemPerSitemap); $i++)
 		echo '<sitemap><loc>',$CurHost,'/sitemap-users-',$i,".xml</loc></sitemap>\n";
 	?>

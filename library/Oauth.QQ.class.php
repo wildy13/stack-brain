@@ -28,7 +28,7 @@ class Oauth
 		$RequestParameter = array(
 			'response_type' => 'code',
 			'client_id' => $AppKey,
-			'redirect_uri' => $WebsitePath . '/oauth-' . $AppID,
+			'redirect_uri' => $ . '/oauth-' . $AppID,
 			'state' => $SendState,
 			'scope' => 'get_user_info,get_info'
 		);

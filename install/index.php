@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	fclose($Htaccess);
 
 
-	$Message = 'Installed successfully! <br /><a href="../register">点我马上注册管理员账号<br />The first registered users will become administrators.</a>';
+	$Message = 'Installed successfully! <br /><a href="../register">The first registered users will become administrators.</a>';
 
 	if (!file_exists('install.lock')) {
 		touch('install.lock');
